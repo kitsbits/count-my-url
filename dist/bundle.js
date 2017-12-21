@@ -18274,7 +18274,85 @@ module.exports = camelize;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(2);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Input = __webpack_require__(28);
+
+var _Input2 = _interopRequireDefault(_Input);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var App = function (_React$Component) {
+    _inherits(App, _React$Component);
+
+    function App() {
+        _classCallCheck(this, App);
+
+        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+
+        _this.state = {};
+
+        // this.handleChange = this.handleChange.bind(this);
+        return _this;
+    }
+
+    // handleChange(event) {
+    //     event.persist();
+    //     const name = event.target.name;
+    //     const newValue = event.target.value;
+    //     this.setState(prevState => {
+    //         return({
+    //             ...prevState,
+    //             [name]: newValue
+    //         });
+    //     });
+    // }
+
+    _createClass(App, [{
+        key: "render",
+        value: function render() {
+            var pageStyles = {
+                height: "100vh"
+                // display: "flex",
+                // justifyContent: "center",
+                // alignItems: "center",
+            };
+
+            return _react2.default.createElement(
+                "div",
+                { style: pageStyles },
+                _react2.default.createElement(_Input2.default, null)
+            );
+        }
+    }]);
+
+    return App;
+}(_react2.default.Component);
+
 exports.default = App;
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = Input;
 
 var _react = __webpack_require__(2);
 
@@ -18282,11 +18360,38 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function App() {
+// import glamorous from "glamorous";
+
+function Input(props) {
+    var formStyle = {
+        height: "400px",
+        width: "100%",
+        margin: "auto",
+        backgroundColor: "#045B75",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        // borderRadius: "5px",
+        boxShadow: "2px 2px 8px rgb(192,192,192)"
+    };
+
+    var inputStyles = {
+        height: "55px",
+        width: "75%",
+        borderRadius: "100px",
+        outline: "none",
+        border: "1px solid white",
+        paddingLeft: "35px",
+        color: "orange",
+        fontSize: "1em",
+        "fontFamily": "'Barlow', sans-serif",
+        backgroundColor: "rgba(113,207,255,0.36)"
+    };
+
     return _react2.default.createElement(
-        "p",
-        null,
-        "Hi"
+        "form",
+        { style: formStyle },
+        _react2.default.createElement("input", { type: "text", name: "url", placeholder: "Paste a URL", style: inputStyles })
     );
 }
 
