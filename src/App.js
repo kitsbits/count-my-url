@@ -7,7 +7,7 @@ export default class App extends React.Component {
         super();
         this.state = {
             url: "",
-            socialShareData: {}
+            shareData: {}
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -25,21 +25,29 @@ export default class App extends React.Component {
         });
     }
 
+    configThis(data) {
+        const dataset = [];
+        for (let key in data) {
+            dataset.push({label: key, count: data[key]});
+        }
+        return dataset;
+    }
+
     getSocialShares() {
         axios
-        .get("https://free.donreach.com/shares?providers=facebook,google,twitter&url=http://9gag.com/", {
+        .get("https://free.donreach.com/shares?providers=facebook,google,twitter&url=https://mail.google.com", {
             headers: {
                 Authorization: "949e1f1aaf2245656fbda132ee2552cb"
             }
         })
         .then(response => {
-            // this.setState(prevState => {
-            //     return {
-            //         ...prevState,
-            //         socialShareData: response.data
-            //     }
-            // })
-            console.log(response.data);
+            const data = this.configThis(response.data.shares);
+            this.setState(prevState => {
+                return {
+                    ...prevState,
+                    shareData: data
+                }
+            })
         })
         .catch(err => console.log(err));
     }
@@ -55,7 +63,7 @@ export default class App extends React.Component {
             // justifyContent: "center",
             // alignItems: "center",
         }
-        // console.log(this.state);
+        console.log(this.state);
 
         return (<div style={pageStyles}>
             <Input handleChange={this.handleChange} input={this.state}/>
