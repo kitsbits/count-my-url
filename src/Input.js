@@ -27,7 +27,7 @@ export default function Input(props) {
     };
 
     return (
-        <form style={formStyle}>
+        <form onSubmit={props.handleSubmit} style={formStyle}>
             <input onChange={props.handleChange} type="text" name="url" placeholder="Paste a URL" value={props.input.url} style={inputStyles} />
         </form>
     )
