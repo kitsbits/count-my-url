@@ -10,7 +10,6 @@ export default function Input(props) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        // borderRadius: "5px",
         boxShadow: "2px 2px 8px rgb(192,192,192)",
     };
 
@@ -29,7 +28,7 @@ export default function Input(props) {
 
     return (
         <form style={formStyle}>
-            <input type="text" name="url" placeholder="Paste a URL" style={inputStyles} />
+            <input onChange={props.handleChange} type="text" name="url" placeholder="Paste a URL" value={props.input.url} style={inputStyles} />
         </form>
     )
 }

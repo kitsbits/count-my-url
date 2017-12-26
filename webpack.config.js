@@ -5,18 +5,26 @@ const config = {
     entry: "./index.js",
     output: {
         path: path.resolve(__dirname, "build/js/"),
-        publicPath: "/public/assets/js/",
+        publicPath: "/public/assets/",
         filename: "bundle.js"
     },
     devServer: {
         contentBase: "public"
     },
     module: {
-        rules: [
+        loaders: [
             {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: "babel-loader"
+                loader: "babel-loader",
+                query: {
+                    presets: ["es2015", "react", "stage-2"]
+                }
+            },
+            {
+                test: /\.css$/,
+                exclude: /node_modules/,
+                loader: "style-loader!css-loader"
             }
         ]
     },
