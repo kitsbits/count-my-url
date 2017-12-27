@@ -3,7 +3,7 @@ import React from "react";
 
 export default function Input(props) {
     const formStyle = {
-        height: "400px",
+        height: "200px",
         width: "100%",
         margin: "auto",
         backgroundColor: "#045B75",

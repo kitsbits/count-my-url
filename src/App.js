@@ -1,6 +1,7 @@
 import React from "react";
 import Input from "./Input";
 import Chart from "./Chart";
+import BlankChart from "./BlankChart";
 import axios from "axios";
 import * as d3 from "d3";
 
@@ -33,7 +34,7 @@ export default class App extends React.Component {
         this.getSocialShares(this.state.url);
     }
 
-    pieChart(data) {
+    renderPieChart(data) {
         const width = 360;
         const height = 360;
         const radius = 180;
@@ -81,10 +82,10 @@ export default class App extends React.Component {
             this.setState(prevState => {
                 return {
                     ...prevState,
-                    dataReady: true
+                    dataReady: true,
+                    dataset: data
                 }
             })
-            this.pieChart(data);
         })
         .catch(err => console.log(err));
     }
@@ -101,14 +102,21 @@ export default class App extends React.Component {
             // alignItems: "center",
         }
 
+        const chartContainer = {
+            minHeight:"500px",
+            width: "100%",
+            backgroundColor: "#d3d3d3",
+            padding: "75px",
+        }
+
         return (
             <div style={pageStyles}>
             <Input
                 handleChange={this.handleChange}
                 handleSubmit={this.handleSubmit}
                 input={this.state}/>
-            <div id="chart">
-                {this.state.dataReady ? this.getSocialShares(d3) : <Chart/> }
+            <div id="chart" style={chartContainer}>
+                {this.state.dataReady ? this.renderPieChart(this.state.dataset) : <BlankChart/> }
             </div>
             </div>
         )
