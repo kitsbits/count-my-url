@@ -39,27 +39,26 @@ export default class App extends React.Component {
         const height = 360;
         const radius = 180;
         const color = d3.scaleOrdinal(d3.schemeCategory20b);
-        const svg = d3.select('#chart')
-              .append('svg')
-              .attr('width', width)
-              .attr('height', height)
-              .append('g')
-              .attr('transform', 'translate(' + (width / 2) +  ',' + (height / 2) + ')');
+        const svg = d3.select("#chart")
+              .append("svg")
+              .attr("width", width)
+              .attr("height", height)
+              .append("g")
+              .attr("transform", "translate(" + (width / 2) +  "," + (height / 2) + ")");
         const arc = d3.arc()
               .innerRadius(0)
               .outerRadius(radius);
         const pie = d3.pie()
                 .value(function(d) { return d.count; })
                 .sort(null);
-        const path = svg.selectAll('path')
+        const path = svg.selectAll("path")
                   .data(pie(data))
                   .enter()
-                  .append('path')
-                  .attr('d', arc)
-                  .attr('fill', function(d) {
+                  .append("path")
+                  .attr("d", arc)
+                  .attr("fill", function(d) {
                     return color(d.data.label);
                   });
-
     }
 
     configThis(data) {
@@ -109,6 +108,8 @@ export default class App extends React.Component {
             padding: "75px",
         }
 
+        // console.log(this.state);
+
         return (
             <div style={pageStyles}>
             <Input
@@ -116,7 +117,12 @@ export default class App extends React.Component {
                 handleSubmit={this.handleSubmit}
                 input={this.state}/>
             <div id="chart" style={chartContainer}>
-                {this.state.dataReady ? this.renderPieChart(this.state.dataset) : <BlankChart/> }
+                {this.state.dataReady ?
+                    <Chart
+                        renderChart={this.renderPieChart}
+                        dataset={this.state.dataset}/>
+                    :
+                    <BlankChart/> }
             </div>
             </div>
         )
