@@ -9,8 +9,6 @@ export default function BlankChart(props) {
     }
 
     return (
-        <div style={placeholderChartStyles}>
-
-        </div>
+        <div style={placeholderChartStyles}></div>
     )
 }

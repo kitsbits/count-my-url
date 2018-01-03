@@ -2,6 +2,7 @@ import React from "react";
 import Input from "./Input";
 import Chart from "./Chart";
 import BlankChart from "./BlankChart";
+import ChartInfo from "./ChartInfo";
 import axios from "axios";
 import * as d3 from "d3";
 
@@ -18,6 +19,7 @@ export default class App extends React.Component {
     }
 
     handleChange(event) {
+        // update this.state.url with user input
         event.persist();
         const name = event.target.name;
         const newValue = event.target.value;
@@ -31,37 +33,52 @@ export default class App extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.getSocialShares(this.state.url);
+        this.getSocialShares(this.state.url); // get social shares using url provided by user input
     }
 
     renderPieChart(data) {
+        // called in Chart component when this.state.dataReady
         const width = 360;
         const height = 360;
         const radius = 180;
         const color = d3.scaleOrdinal(d3.schemeCategory20b);
+        d3.select("svg").remove();
         const svg = d3.select("#chart")
-              .append("svg")
-              .attr("width", width)
-              .attr("height", height)
-              .append("g")
-              .attr("transform", "translate(" + (width / 2) +  "," + (height / 2) + ")");
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + (width / 2) +  "," + (height / 2) + ")");
         const arc = d3.arc()
               .innerRadius(0)
               .outerRadius(radius);
+
         const pie = d3.pie()
                 .value(function(d) { return d.count; })
                 .sort(null);
         const path = svg.selectAll("path")
-                  .data(pie(data))
-                  .enter()
-                  .append("path")
-                  .attr("d", arc)
-                  .attr("fill", function(d) {
-                    return color(d.data.label);
-                  });
+            .data(pie(data))
+            .enter()
+            .append("path")
+            .attr("d", arc)
+            .attr("fill", function(d) {
+              return color(d.data.label);
+            });
+        // const text = svg.selectAll("text")
+        //     .data(data)
+        //     .enter()
+        //     .append("text")
+        //     .text((d) => d.label)
+        //     // .attr("x", 10)
+        //     // .attr("y", 10)
+        //     .attr("text-anchor", "middle")
+        //     .style("fill", "white")
+        //     .attr("transform", "rotate(70)")
+        //     // .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
     }
 
     configThis(data) {
+        // configure data returned from donreach to be d3 pie chart friendly
         const dataset = [];
         for (let key in data) {
             dataset.push({label: key, count: data[key]});
@@ -78,10 +95,13 @@ export default class App extends React.Component {
         })
         .then(response => {
             const data = this.configThis(response.data.shares);
+            // call function to figure donreach share data to be d3 pie chart friendly
             this.setState(prevState => {
+                // set configured data in state, tell component data is ready
                 return {
                     ...prevState,
-                    dataReady: true,
+                    dataReady: true, // triggers this.renderPieChart in Chart component
+                    rawDataset: response.data,
                     dataset: data
                 }
             })
@@ -89,41 +109,48 @@ export default class App extends React.Component {
         .catch(err => console.log(err));
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
         const pageStyles = {
             height: "100vh",
-            // display: "flex",
-            // justifyContent: "center",
-            // alignItems: "center",
         }
 
-        const chartContainer = {
-            minHeight:"500px",
+        const infoContainer = {
+            display: "flex",
+            justifyContent: "space-around",
             width: "100%",
             backgroundColor: "#d3d3d3",
             padding: "75px",
         }
 
-        // console.log(this.state);
+        const chartContainer = {
+            minHeight:"500px",
+        }
+
+        console.log(this.state);
 
         return (
             <div style={pageStyles}>
-            <Input
-                handleChange={this.handleChange}
-                handleSubmit={this.handleSubmit}
-                input={this.state}/>
-            <div id="chart" style={chartContainer}>
-                {this.state.dataReady ?
-                    <Chart
-                        renderChart={this.renderPieChart}
-                        dataset={this.state.dataset}/>
-                    :
-                    <BlankChart/> }
-            </div>
+                <Input
+                    handleChange={this.handleChange}
+                    handleSubmit={this.handleSubmit}
+                    input={this.state}/>
+                <div style={infoContainer}>
+                    <div id="chart" style={chartContainer}>
+                        {this.state.dataReady ?
+                            <Chart
+                                renderChart={this.renderPieChart}
+                                dataset={this.state.dataset}/>
+                            :
+                            <BlankChart/> }
+                    </div>
+                    <div>
+                        {this.state.dataReady ?
+                            <ChartInfo
+                                info={this.state.rawDataset}/>
+                            :
+                            null}
+                    </div>
+                </div>
             </div>
         )
     }
