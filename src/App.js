@@ -36,6 +36,23 @@ export default class App extends React.Component {
         this.getSocialShares(this.state.url); // get social shares using url provided by user input
     }
 
+    _configThis(data) {
+        // configure data returned from donreach to be d3 pie chart friendly
+        const dataset = [];
+        for (let key in data) {
+            dataset.push({label: key, count: data[key], display: this._addCommasToThis(data[key])});
+        }
+        return dataset;
+    }
+
+    _addCommasToThis(number) {
+        const returnThis = number.toString().split("");
+        for (let i = returnThis.length; i > 3; i -= 3) {
+            returnThis.splice(i-3, 0, ",");
+        }
+        return returnThis.join("");
+    }
+
     renderPieChart(data) {
         // called in Chart component when this.state.dataReady
         const width = 360;
@@ -77,24 +94,23 @@ export default class App extends React.Component {
         //     // .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
     }
 
-    configThis(data) {
-        // configure data returned from donreach to be d3 pie chart friendly
-        const dataset = [];
-        for (let key in data) {
-            dataset.push({label: key, count: data[key]});
-        }
-        return dataset;
+    renderShareData(data) {
+        return data.map((each, i) => {
+            return (
+                <li key={each.label + i}>{each.label}: {each.display} Shares</li>
+            )
+        })
     }
 
     getSocialShares(url) {
         axios
-        .get(`https://free.donreach.com/shares?providers=facebook,google,twitter&url=${url}`, {
+        .get(`https://free.donreach.com/shares?providers=facebook,google,twitter,linkedin,pinterest,tumblr&url=${url}`, {
             headers: {
                 Authorization: "949e1f1aaf2245656fbda132ee2552cb"
             }
         })
         .then(response => {
-            const data = this.configThis(response.data.shares);
+            const data = this._configThis(response.data.shares);
             // call function to figure donreach share data to be d3 pie chart friendly
             this.setState(prevState => {
                 // set configured data in state, tell component data is ready
@@ -146,7 +162,9 @@ export default class App extends React.Component {
                     <div>
                         {this.state.dataReady ?
                             <ChartInfo
-                                info={this.state.rawDataset}/>
+                                info={this.state}
+                                renderShareData={this.renderShareData}
+                                addCommasToTotal={this._addCommasToThis}/>
                             :
                             null}
                     </div>
