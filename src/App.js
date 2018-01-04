@@ -39,11 +39,16 @@ export default class App extends React.Component {
         this.getSocialShares(this.state.url); // get social shares using url provided by user input
     }
 
-    _configThis(data) {
+    _configThis(shareData, totalShares) {
         // configure data returned from donreach to be d3 pie chart friendly
         const dataset = [];
-        for (let key in data) {
-            dataset.push({label: key, count: data[key], display: this._addCommasToThis(data[key])});
+        for (let key in shareData) {
+            dataset.push({
+                label: key,
+                count: shareData[key],
+                display: this._addCommasToThis(shareData[key]),
+                percent: Math.floor((shareData[key] / totalShares) * 100)
+            });
         }
         return dataset;
     }
@@ -58,8 +63,8 @@ export default class App extends React.Component {
 
     renderPieChart(data) {
         // called in Chart component when this.state.dataReady
-        const width = 360;
-        const height = 360;
+        const width = 500;
+        const height = 500;
         const radius = 180;
         const color = d3.scaleOrdinal().range(this.state.colorRange);
         d3.select("svg").remove();
@@ -72,6 +77,9 @@ export default class App extends React.Component {
         const arc = d3.arc()
               .innerRadius(0)
               .outerRadius(radius);
+        const labelArc = d3.arc()
+              .innerRadius(radius - 40)
+              .outerRadius(radius - 40);
 
         const pie = d3.pie()
                 .value(function(d) { return d.count; })
@@ -85,16 +93,44 @@ export default class App extends React.Component {
               return color(d.data.label);
             });
         // const text = svg.selectAll("text")
-        //     .data(data)
+        //     .data(pie(data))
         //     .enter()
         //     .append("text")
-        //     .text((d) => d.label)
-        //     // .attr("x", 10)
-        //     // .attr("y", 10)
-        //     .attr("text-anchor", "middle")
+        //     .text((d) => d.data.label)
         //     .style("fill", "white")
-        //     .attr("transform", "rotate(70)")
-        //     // .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+        //     .attr("transform", function(d) {
+        //         d.innerRadius = 0;
+        //         d.outerRadius = 180;
+        //         return "translate(" + arc.centroid(d) + ")";
+        //     })
+        //     .attr("text-anchor", "middle")
+
+        const text = svg.selectAll("text")
+        .data(pie(data), function(d){ return d.data.label })
+
+        text.enter()
+            .append("text")
+            .attr("transform", function(d) {
+                var c = labelArc.centroid(d);
+                return "translate(" + c[0]*1.5 +"," + c[1]*1.5 + ")";
+             })
+            .text(function(d) {
+                if (d.data.percent > 0) {
+                    return (`${d.data.label}: ${d.data.percent}%`);
+                }
+            })
+            .style("fill", "#4F4757");
+
+
+        function midAngle(d){
+            return d.startAngle + (d.endAngle - d.startAngle)/2;
+        }
+
+        const polyline = svg.select(".lines").selectAll("polyline")
+        .data(pie(data), function(d){ return d.data.label });
+
+        polyline.enter()
+        .append("polyline");
     }
 
     renderShareData(data) {
@@ -126,7 +162,7 @@ export default class App extends React.Component {
             }
         })
         .then(response => {
-            const data = this._configThis(response.data.shares);
+            const data = this._configThis(response.data.shares, response.data.total);
             // call function to figure donreach share data to be d3 pie chart friendly
             this.setState(prevState => {
                 // set configured data in state, tell component data is ready

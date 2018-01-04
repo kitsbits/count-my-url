@@ -6,7 +6,7 @@ export default function ChartInfo(props) {
         // padding: "45px",
         // borderRadius: "2px",
         maxWidth: "320px",
-        margin: "-50px 20px 20px 20px",
+        margin: "20px",
     }
     const listStyles = {
         listStyle: "none",
