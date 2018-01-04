@@ -11,11 +11,14 @@ export default class App extends React.Component {
         super();
         this.state = {
             url: "",
-            dataReady: false
+            dataReady: false,
+            colorRange: ["rgba(244,156,67,0.9)", "rgba(176,158,190,0.9)", "rgba(61,22,92,0.9)", "rgba(187,115,119,0.9)", "rgba(158,43,145,0.9)"]
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.renderPieChart = this.renderPieChart.bind(this);
+        this.renderShareData = this.renderShareData.bind(this);
     }
 
     handleChange(event) {
@@ -58,7 +61,7 @@ export default class App extends React.Component {
         const width = 360;
         const height = 360;
         const radius = 180;
-        const color = d3.scaleOrdinal(d3.schemeCategory20b);
+        const color = d3.scaleOrdinal().range(this.state.colorRange);
         d3.select("svg").remove();
         const svg = d3.select("#chart")
             .append("svg")
@@ -97,14 +100,14 @@ export default class App extends React.Component {
     renderShareData(data) {
         return data.map((each, i) => {
             return (
-                <li key={each.label + i}>{each.label}: {each.display} Shares</li>
+                <li key={each.label + i} color={this.state.colorRange[i]}>{each.label}: {each.display} Shares</li>
             )
         })
     }
 
     getSocialShares(url) {
         axios
-        .get(`https://free.donreach.com/shares?providers=facebook,google,twitter,linkedin,pinterest,tumblr&url=${url}`, {
+        .get(`https://free.donreach.com/shares?providers=facebook,twitter,linkedin,pinterest,tumblr&url=${url}`, {
             headers: {
                 Authorization: "949e1f1aaf2245656fbda132ee2552cb"
             }
@@ -133,8 +136,9 @@ export default class App extends React.Component {
         const infoContainer = {
             display: "flex",
             justifyContent: "space-around",
+            flexWrap: "wrap",
             width: "100%",
-            backgroundColor: "#d3d3d3",
+            backgroundColor: "#e3e3e3",
             padding: "75px",
         }
 

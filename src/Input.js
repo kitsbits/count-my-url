@@ -6,7 +6,8 @@ export default function Input(props) {
         height: "200px",
         width: "100%",
         margin: "auto",
-        backgroundColor: "#045B75",
+        opacity: "0.85",
+        backgroundImage: "linear-gradient(-90deg, #FF8300 0%, #4E069E 100%)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -15,15 +16,16 @@ export default function Input(props) {
 
     const inputStyles = {
         height: "55px",
-        width: "75%",
-        borderRadius: "100px",
+        width: "65%",
+        borderRadius: "110px",
         outline: "none",
         border: "1px solid white",
         paddingLeft: "35px",
-        color: "orange",
-        fontSize: "1em",
-        "fontFamily": "'Barlow', sans-serif",
-        backgroundColor: "rgba(113,207,255,0.36)"
+        color: "#3D165C",
+        fontSize: "1.25em",
+        fontFamily: "'Barlow', sans-serif",
+        opacity: "0.76",
+        background: "#FFFFFF",
     };
 
     return (
