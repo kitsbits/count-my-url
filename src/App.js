@@ -12,7 +12,7 @@ export default class App extends React.Component {
         this.state = {
             url: "",
             dataReady: false,
-            colorRange: ["rgba(244,156,67,0.9)", "rgba(176,158,190,0.9)", "rgba(61,22,92,0.9)", "rgba(187,115,119,0.9)", "rgba(158,43,145,0.9)"]
+            colorRange: ["rgba(61,22,92,0.9)", "rgba(176,158,190,0.9)", "rgba(123,71,174,0.9)", "rgba(187,115,119,0.9)", "rgba(158,43,145,0.9)"]
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -98,9 +98,22 @@ export default class App extends React.Component {
     }
 
     renderShareData(data) {
+        // rendered in ChartInfo component, list item for each social platform
+        const shareCountStyles = {
+            color: "rgba(244,156,67,0.9)",
+            fontSize: "1.5em",
+            marginLeft: "10px",
+        }
+
+        const listItemStyles = {
+            marginBottom: "15px",
+        }
+
         return data.map((each, i) => {
             return (
-                <li key={each.label + i} color={this.state.colorRange[i]}>{each.label}: {each.display} Shares</li>
+                <li key={each.label + i}
+                    color={this.state.colorRange[i]}
+                    style={listItemStyles}>{each.label.toUpperCase()}<span style={shareCountStyles}>{each.display}</span><br/>shares</li>
             )
         })
     }
@@ -139,11 +152,12 @@ export default class App extends React.Component {
             flexWrap: "wrap",
             width: "100%",
             backgroundColor: "#e3e3e3",
-            padding: "75px",
+            padding: "105px 75px 105px 75px",
         }
 
         const chartContainer = {
             minHeight:"500px",
+            height: "auto",
         }
 
         console.log(this.state);

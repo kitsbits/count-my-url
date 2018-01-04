@@ -17,10 +17,11 @@ export default function BlankChart(props) {
     }
 
     const placeholderInfoStyles = {
-        backgroundColor: "rgba(255,255,255,0.85)",
-        padding: "45px",
-        borderRadius: "2px",
-        boxShadow: "2px 2px 8px rgb(192,192,192)",
+        // backgroundColor: "rgba(255,255,255,0.85)",
+        // padding: "45px",
+        // borderRadius: "2px",
+        margin: "20px",
+        textAlign: "center",
     }
 
     return (
@@ -28,7 +29,7 @@ export default function BlankChart(props) {
             <div style={placeholderChartStyles}></div>
             <div style={placeholderInfoStyles}>
                 <h1>Your Site</h1>
-                <p>Total Shares: --</p>
+                <p>Total Shares --</p>
             </div>
         </div>
     )
