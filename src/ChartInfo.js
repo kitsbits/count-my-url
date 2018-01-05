@@ -1,13 +1,24 @@
 import React from "react";
 
 export default function ChartInfo(props) {
+    // styles for social platform list items in App.js (renderShareData)
+    ////////////////////////////////////////////////////////////////////
+    
     const containerStyles = {
-        // backgroundColor: "rgba(255,255,255,0.85)",
-        // padding: "45px",
-        // borderRadius: "2px",
         maxWidth: "320px",
         margin: "20px",
     }
+
+    // placeholder styles
+    const placeholderInfoStyles = {
+        backgroundColor: "rgba(255,255,255,0.85)",
+        padding: "45px",
+        borderRadius: "2px",
+        boxShadow: "2px 2px 8px rgb(192,192,192)",
+    }
+    /////////////////////////////
+
+    // styles for actual data
     const listStyles = {
         listStyle: "none",
         display: "flex",
@@ -30,17 +41,29 @@ export default function ChartInfo(props) {
     const shareCountStyles = {
         color: "rgba(244,156,67,0.9)",
         fontSize: "1.5em",
+        marginLeft: "15px",
     }
 
     return (
         <div style={containerStyles}>
             <p>TOTAL
-                <span style={shareCountStyles}>    {props.addCommasToTotal(props.info.rawDataset.total)}</span><br/> shares
+                <span style={shareCountStyles}>
+                    {props.info.dataReady ?
+                    props.addCommasToTotal(props.info.rawDataset.total)
+                    :
+                    "0"}
+                </span>
+                <br/> shares
             </p>
-            <h1 style={headerStyles}>{props.info.rawDataset.url}</h1>
-            <ul style={listStyles}>
-                {props.renderShareData(props.info.dataset)}
-            </ul>
+            {props.info.dataReady ?
+            (<div>
+                <h1 style={headerStyles}>{props.info.rawDataset.url}</h1>
+                <ul style={listStyles}>
+                    {props.renderShareData(props.info.dataset)}
+                </ul>
+            </div>)
+            :
+            (<h1 style={headerStyles}>http://yourwebsite.com</h1>)}
         </div>
     )
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import Input from "./Input";
 import Chart from "./Chart";
-import BlankChart from "./BlankChart";
 import ChartInfo from "./ChartInfo";
 import axios from "axios";
 import * as d3 from "d3";
@@ -110,7 +109,6 @@ export default class App extends React.Component {
                 return "translate(" + c[0]*1.5 +"," + c[1]*1.5 + ")";
              })
             .text(function(d) {
-                console.log(d.data.percent)
                 if (d.data.percent > 0.4) {
                     return (`${d.data.label}: ${d.data.percent}%`);
                 }
@@ -140,6 +138,7 @@ export default class App extends React.Component {
     }
 
     getSocialShares(url) {
+        // called in this.handleSubmit
         axios
         .get(`https://free.donreach.com/shares?providers=facebook,twitter,linkedin,pinterest,tumblr&url=${url}`, {
             headers: {
@@ -181,7 +180,7 @@ export default class App extends React.Component {
             height: "auto",
         }
 
-        console.log(this.state);
+        // console.log(this.state);
 
         return (
             <div style={pageStyles}>
@@ -191,21 +190,15 @@ export default class App extends React.Component {
                     input={this.state}/>
                 <div style={infoContainer}>
                     <div id="chart" style={chartContainer}>
-                        {this.state.dataReady && (this.state.rawDataset.total > 0) ?
-                            <Chart
-                                renderChart={this.renderPieChart}
-                                dataset={this.state.dataset}/>
-                            :
-                            <BlankChart/> }
+                        <Chart
+                            renderChart={this.renderPieChart}
+                            state={this.state}/>
                     </div>
                     <div>
-                        {this.state.dataReady ?
-                            <ChartInfo
-                                info={this.state}
-                                renderShareData={this.renderShareData}
-                                addCommasToTotal={this._addCommasToThis}/>
-                            :
-                            null}
+                        <ChartInfo
+                            info={this.state}
+                            renderShareData={this.renderShareData}
+                            addCommasToTotal={this._addCommasToThis}/>
                     </div>
                 </div>
             </div>
