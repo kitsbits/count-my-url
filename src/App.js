@@ -67,23 +67,30 @@ export default class App extends React.Component {
         const height = 500;
         const radius = 180;
         const color = d3.scaleOrdinal().range(this.state.colorRange);
+
+        // to show only one pie chart at a time
         d3.select("svg").remove();
+
         const svg = d3.select("#chart")
             .append("svg")
             .attr("width", width)
             .attr("height", height)
             .append("g")
             .attr("transform", "translate(" + (width / 2) +  "," + (height / 2) + ")");
+
+        // pie arc
         const arc = d3.arc()
               .innerRadius(0)
               .outerRadius(radius);
+        // arc for labels
         const labelArc = d3.arc()
               .innerRadius(radius - 40)
               .outerRadius(radius - 40);
 
         const pie = d3.pie()
-                .value(function(d) { return d.count; })
+                .value(function(d) { return d.percent; })
                 .sort(null);
+
         const path = svg.selectAll("path")
             .data(pie(data))
             .enter()
@@ -92,21 +99,9 @@ export default class App extends React.Component {
             .attr("fill", function(d) {
               return color(d.data.label);
             });
-        // const text = svg.selectAll("text")
-        //     .data(pie(data))
-        //     .enter()
-        //     .append("text")
-        //     .text((d) => d.data.label)
-        //     .style("fill", "white")
-        //     .attr("transform", function(d) {
-        //         d.innerRadius = 0;
-        //         d.outerRadius = 180;
-        //         return "translate(" + arc.centroid(d) + ")";
-        //     })
-        //     .attr("text-anchor", "middle")
 
         const text = svg.selectAll("text")
-        .data(pie(data), function(d){ return d.data.label })
+            .data(pie(data), function(d){ return d.data.label });
 
         text.enter()
             .append("text")
@@ -115,22 +110,12 @@ export default class App extends React.Component {
                 return "translate(" + c[0]*1.5 +"," + c[1]*1.5 + ")";
              })
             .text(function(d) {
-                if (d.data.percent > 0) {
+                console.log(d.data.percent)
+                if (d.data.percent > 0.4) {
                     return (`${d.data.label}: ${d.data.percent}%`);
                 }
             })
             .style("fill", "#4F4757");
-
-
-        function midAngle(d){
-            return d.startAngle + (d.endAngle - d.startAngle)/2;
-        }
-
-        const polyline = svg.select(".lines").selectAll("polyline")
-        .data(pie(data), function(d){ return d.data.label });
-
-        polyline.enter()
-        .append("polyline");
     }
 
     renderShareData(data) {
@@ -206,7 +191,7 @@ export default class App extends React.Component {
                     input={this.state}/>
                 <div style={infoContainer}>
                     <div id="chart" style={chartContainer}>
-                        {this.state.dataReady ?
+                        {this.state.dataReady && (this.state.rawDataset.total > 0) ?
                             <Chart
                                 renderChart={this.renderPieChart}
                                 dataset={this.state.dataset}/>
