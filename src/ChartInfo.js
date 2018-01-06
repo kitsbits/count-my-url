@@ -3,10 +3,10 @@ import React from "react";
 export default function ChartInfo(props) {
     // styles for social platform list items in App.js (renderShareData)
     ////////////////////////////////////////////////////////////////////
-    
+
     const containerStyles = {
         maxWidth: "320px",
-        margin: "20px",
+        margin: "30px",
     }
 
     // placeholder styles
@@ -21,12 +21,7 @@ export default function ChartInfo(props) {
     // styles for actual data
     const listStyles = {
         listStyle: "none",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "flex-start",
         padding: "0",
-        height: "200px",
     }
 
     const headerStyles = {
@@ -57,7 +52,7 @@ export default function ChartInfo(props) {
             </p>
             {props.info.dataReady ?
             (<div>
-                <h1 style={headerStyles}>{props.info.rawDataset.url}</h1>
+                <h1 style={headerStyles}>{props.truncateUrl(props.info.rawDataset.url)}</h1>
                 <ul style={listStyles}>
                     {props.renderShareData(props.info.dataset)}
                 </ul>

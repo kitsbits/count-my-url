@@ -6,8 +6,9 @@
 
 body {
     margin: 0;
+    background-color: #e3e3e3;
 }
 
 input::placeholder {
-    color: white;
+    color: "rgba(244,156,67,0.9)";
 }

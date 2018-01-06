@@ -4,9 +4,9 @@ import * as d3 from "d3";
 export default function Chart(props) {
     // pie chart styles in App.js (renderPieChart) \\
     /////////////////////////////////////////////////
-    
+
     const placeholderViewbox = {
-        height: "500px",
+        height: "400px",
         width: "500px",
         display: "flex",
         justifyContent: "center",
@@ -20,7 +20,7 @@ export default function Chart(props) {
     }
 
     return (
-        props.state.dataReady && (props.state.rawDataset.total > 0) ?
+        props.state.dataReady ?
         (<div>
             {props.renderChart(props.state.dataset)}
         </div>)

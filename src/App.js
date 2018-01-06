@@ -1,4 +1,6 @@
 import React from "react";
+import Header from "./Header";
+import Footer from "./Footer";
 import Input from "./Input";
 import Chart from "./Chart";
 import ChartInfo from "./ChartInfo";
@@ -34,8 +36,9 @@ export default class App extends React.Component {
     }
 
     handleSubmit(event) {
+        // get social shares using url provided by user input
         event.preventDefault();
-        this.getSocialShares(this.state.url); // get social shares using url provided by user input
+        this.getSocialShares(this.state.url);
     }
 
     _configThis(shareData, totalShares) {
@@ -60,9 +63,17 @@ export default class App extends React.Component {
         return returnThis.join("");
     }
 
+    _truncateThis(url) {
+        if (url.length < 41) {
+            return url;
+        }
+        let grab38Chars = url.split("").slice(0, 38).join("");
+        return grab38Chars += "...";
+    }
+
     renderPieChart(data) {
         // called in Chart component when this.state.dataReady
-        const width = 500;
+        const width = 650;
         const height = 500;
         const radius = 180;
         const color = d3.scaleOrdinal().range(this.state.colorRange);
@@ -75,7 +86,7 @@ export default class App extends React.Component {
             .attr("width", width)
             .attr("height", height)
             .append("g")
-            .attr("transform", "translate(" + (width / 2) +  "," + (height / 2) + ")");
+            .attr("transform", "translate(" + (width / 2) +  "," + (radius + 50) + ")");
 
         // pie arc
         const arc = d3.arc()
@@ -163,27 +174,27 @@ export default class App extends React.Component {
 
     render() {
         const pageStyles = {
-            height: "100vh",
+
         }
 
         const infoContainer = {
             display: "flex",
             justifyContent: "space-around",
             flexWrap: "wrap",
-            width: "100%",
-            backgroundColor: "#e3e3e3",
-            padding: "105px 75px 105px 75px",
+            width: "80%",
+            padding: "105px 0 35px 0",
+            margin: "0 auto 200px auto",
         }
 
         const chartContainer = {
-            minHeight:"500px",
-            height: "auto",
+
         }
 
         // console.log(this.state);
 
         return (
             <div style={pageStyles}>
+                <Header/>
                 <Input
                     handleChange={this.handleChange}
                     handleSubmit={this.handleSubmit}
@@ -198,9 +209,11 @@ export default class App extends React.Component {
                         <ChartInfo
                             info={this.state}
                             renderShareData={this.renderShareData}
-                            addCommasToTotal={this._addCommasToThis}/>
+                            addCommasToTotal={this._addCommasToThis}
+                            truncateUrl={this._truncateThis}/>
                     </div>
                 </div>
+                <Footer/>
             </div>
         )
     }

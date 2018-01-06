@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dist": "webpack"
+    "start": "webpack-dev-server",
   },
   "keywords": [],
   "author": "",
