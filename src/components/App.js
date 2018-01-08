@@ -183,7 +183,7 @@ export default class App extends React.Component {
             flexWrap: "wrap",
             width: "80%",
             padding: "105px 0 35px 0",
-            margin: "0 auto 200px auto",
+            margin: "auto",
         }
 
         const chartContainer = {

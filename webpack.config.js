@@ -1,16 +1,32 @@
 const webpack = require("webpack");
 const path = require("path");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+  template: './public/index.html',
+  filename: 'index.html',
+  inject: 'body'
+});
 
 const config = {
-    entry: "./index.js",
+    entry: "./src/index.js",
+    target: "web",
     output: {
-        path: path.resolve(__dirname, "build/js/"),
-        publicPath: "/public/assets/",
+        path: path.resolve(__dirname, "build/"),
+        publicPath: "/",
         filename: "bundle.js"
     },
     devServer: {
         contentBase: "public"
     },
+    plugins: [
+        HtmlWebpackPluginConfig,
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        }),
+        new ExtractTextPlugin({ filename: 'css/style.css', disable: false, allChunks: true })
+    ],
     module: {
         loaders: [
             {
