@@ -6,7 +6,7 @@ if you don't already have webpack installed...
 `npm install --global webpack`
 
 cd into root folder
-`npm install`\n
+`npm install`
 `npm start`
 
 open your favorite web browser to: http://localhost:8080/
