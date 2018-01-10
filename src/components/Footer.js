@@ -31,9 +31,9 @@ export default function Footer(props) {
     return (
         <div style={containerStyles}>
             {/* <h4>COUNT MY URL</h4> */}
-            <a href="https://github.com/noblepaper/count-my-url" target="blank" style={linkStyles}>CODE FOR THIS SITE</a>
-            <a href="https://github.com/noblepaper" target="blank" style={linkStyles}>MY GITHUB</a>
-            <a href="https://donreach.com/docs/social-api/getting-started/" target="blank" style={donReachStyles}>* Data supplied by<br/>the Don Reach API</a>
+            <a href="https://github.com/noblepaper/count-my-url" target="blank" style={linkStyles} className="links">CODE FOR THIS SITE</a>
+            <a href="https://github.com/noblepaper" target="blank" style={linkStyles} className="links">MY GITHUB</a>
+            <a href="https://donreach.com/docs/social-api/getting-started/" target="blank" style={donReachStyles} className="links">* Data supplied by<br/>the Don Reach API</a>
         </div>
     )
 }

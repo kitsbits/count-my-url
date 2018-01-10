@@ -49,13 +49,15 @@ export default function Input(props) {
         border: "1px solid rgba(255,255,255,0.85)",
         outline: "none",
         fontSize: "1em",
+        cursor: "pointer",
+        transition: "all 0.2s ease-in-out",
     };
 
     return (
         <form onSubmit={props.handleSubmit} style={formStyle}>
             <p style={descriptionStyles}>Counts # of shares on Facebook, Twitter, LinkedIn, Tumblr, & Pinterest*</p>
             <input onChange={props.handleChange} type="text" name="url" placeholder="Paste a URL" value={props.input.url} style={inputStyles} />
-        <button type="submit" style={buttonStyles}>GET RESULTS</button>
+            <button id="test" type="submit" style={buttonStyles}>GET RESULTS</button>
         </form>
     )
 }

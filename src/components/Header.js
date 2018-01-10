@@ -22,7 +22,7 @@ export default function Header(props) {
     return (
         <div style={containerStyles}>
             <h3 style={titleStyles}>COUNT MY URL</h3>
-            <a href="https://github.com/noblepaper/count-my-url" target="blank"><i className="fa fa-2x fa-github" style={iconStyles}/></a>
+            <a href="https://github.com/noblepaper/count-my-url" target="blank"><i className="fa fa-2x fa-github links" style={iconStyles}/></a>
         </div>
     )
 }

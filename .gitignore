@@ -1,3 +1,4 @@
 node_modules/
 yarn.lock
 count-my-url.sketch
+.DS_Store

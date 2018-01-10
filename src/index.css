@@ -12,3 +12,12 @@ body {
 input::placeholder {
     color: "rgba(244,156,67,0.9)";
 }
+
+#test:active {
+    border: 1px solid orange !important;
+    color: orange !important;
+}
+
+.links:hover {
+    color: rgba(244,156,67,0.9) !important;
+}
