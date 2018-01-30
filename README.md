@@ -1,5 +1,5 @@
 # Count My Url!
-Easily access rough social share data for any website. This app leverages the Don Reach API and uses a D3 pie chart. See it live! http://count-my-url.com/
+Easily access rough social share data for any website. This app leverages the Don Reach API and uses a D3 pie chart. See it live! http://count-my-url.surge.sh/
 
 ## Get it going
 if you don't already have webpack installed...
